@@ -83,6 +83,13 @@ function tuple_to_point(tup) {
 
 
 
+function plot_parameter() {
+  input_ctx_top.clearRect(0, 0, SIZE, SIZE);
+  let p = get_canvas_point(parameter, zoom_input, center_x_input, center_y_input);
+  input_ctx_top.beginPath();
+  input_ctx_top.arc(p.h, p.k, 5, 0, 2 * Math.PI);
+  input_ctx_top.fill();
+}
 
 
 function set_parameter(c) {
@@ -91,11 +98,7 @@ function set_parameter(c) {
     document.getElementById('parameter').value = "";
   } else {
     document.getElementById('parameter').value = parameter.x + ', ' + parameter.y;
-    input_ctx_top.clearRect(0, 0, SIZE, SIZE);
-    let p = get_canvas_point(c, zoom_input, center_x_input, center_y_input);
-    input_ctx_top.beginPath();
-    input_ctx_top.arc(p.h, p.k, 10, 0, 2 * Math.PI);
-    input_ctx_top.fill();
+    plot_parameter();
     plot_output();
   }
 }
@@ -254,6 +257,9 @@ function plot_input() {
       }
     }
   }
+
+  input_ctx_top.clearRect(0, 0, SIZE, SIZE);
+  plot_parameter();
 }
 
 function plot_output() {
