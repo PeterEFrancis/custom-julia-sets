@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Custom Julia Sets</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <!-- Mathjax -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+
+    <style>
+
+      br {
+        user-select: none;
+      }
+
+      canvas {
+        border: 1px solid black;
+        width: 100%;
+      }
+
+      .cursorText {
+        position: absolute;
+        background-color: white;
+        padding: 2px;
+        pointer-events: none;
+      }
+
+
+    </style>
+  </head>
+  <body>
+
+
+
+    <div class="container">
+        <br>
+      <div class="jumbotron">
+        <h1 class="text-center">Custom Julia Sets</h1>
+        <p class="lead" style="margin-top: 50px; border: 1px solid black;">\[f(z)=\frac{cz^3(z-4)}{6z^2-4z+1}\]</p>
+      </div>
+
+      <!-- canvas -->
+      <div class="row">
+        <div class="col-md-6">
+          <div class="cont" style="position: relative; width: 100%;">
+            <canvas id="input-canvas-bottom" width="1000" height="1000" style="position: absolute"></canvas>
+            <canvas id="input-canvas-top" width="1000" height="1000" style="background-color: transparent; position: absolute"></canvas>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <canvas id="output-canvas" width="1000" height="1000"></canvas>
+        </div>
+      </div>
+
+      <!-- controls -->
+      <div class="row" style="margin-top: 20px">
+        <div class="col-md-6">
+          <div class="input-group" style="margin-bottom: 20px">
+            <span class="input-group-addon">Parameter Point:</span>
+            <input id="parameter" type="text" class="form-control" value="1" onchange="set_parameter(tuple_to_point(this.value))" placeholder="x, y"/>
+          </div>
+
+          <div class="row" style="margin-bottom: 20px;">
+            <div class="col-md-8">
+              <div class="input-group">
+                <span class="input-group-addon">Center:</span>
+                <input id="center-x-input" type="number" class="form-control" value="-.75"/>
+                <span class="input-group-addon">,</span>
+                <input id="center-y-input" type="number" class="form-control" value="0"/>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="input-group">
+                <span class="input-group-addon">Zoom:</span>
+                <input id="zoom-input" type="number" class="form-control" value=".25"/>
+              </div>
+            </div>
+          </div>
+          <div class="input-group" style="margin-bottom: 20px">
+            <span class="input-group-addon">Discretize with</span>
+            <input id="disc-input" type="number" class="form-control" value="1000" onchange="this.value=Math.min(1000, Number(this.value));"/>
+            <span class="input-group-addon">pixels per side</span>
+          </div>
+
+        </div>
+
+        <div class="col-md-6">
+
+          <div class="row" style="margin-bottom: 20px;">
+            <div class="col-md-8">
+              <div class="input-group">
+                <span class="input-group-addon">Center:</span>
+                <input id="center-x-output" type="number" class="form-control" value="2" onchange="plot_output()"/>
+                <span class="input-group-addon">,</span>
+                <input id="center-y-output" type="number" class="form-control" value="0" onchange="plot_output()"/>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="input-group">
+                <span class="input-group-addon">Zoom:</span>
+                <input id="zoom-output" type="number" class="form-control" value="0.1" onchange="plot_output()"/>
+              </div>
+            </div>
+          </div>
+          <div class="input-group" style="margin-bottom: 20px">
+            <span class="input-group-addon">Discretize with</span>
+            <input id="disc-output" type="number" class="form-control" value="200" onchange="this.value=Math.min(1000, Number(this.value)); plot_output()"/>
+            <span class="input-group-addon">pixels per side</span>
+          </div>
+          <div class="input-group" style="margin-bottom: 20px">
+            <span class="input-group-addon">Max Iterations</span>
+            <input id="max-iterations" type="number" class="form-control" value="100" onchange="plot_output()"/>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- meta buttons -->
+      <div class="row" style="margin-top: 0px">
+        <div class="col-md-6">
+          <button class="btn btn-block btn-primary" onclick="get_input_settings(); plot_input();">Update Input Settings</button>
+
+          <!-- <div class="input-group">
+            <span class="input-group-addon">Number of Workers</span>
+            <input id="num-workers" type="number" class="form-control" value="8"></input>
+          </div> -->
+        </div>
+        <div class="col-md-6">
+          <button onclick="download_output();" type="button" class="btn btn-default center-block"><span class="glyphicon glyphicon-download-alt"></span> Download Image</button>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="row" style="margin:100px 0px 100px 0px;">
+        <div class="col-md-12">
+          <p class="text-center" style="color: grey">Copyright &copy; 2022 <a style="color:grey; text-decoration: underline;" href="https://PeterEFrancis.com">Peter E. Francis</a></p>
+        </div>
+      </div>
+
+
+    <script src="engine.js"></script>
+
+    <script>
+      get_input_settings();
+      get_output_settings();
+    </script>
+
+  </body>
+</html>
