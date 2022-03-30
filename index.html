@@ -44,7 +44,7 @@
       </div>
 
       <!-- parameter and max iterations -->
-      <div class="row">
+      <div class="row" style="margin-bottom: 20px;">
         <div class="col-md-3"></div>
         <div class="col-md-6">
           <div class="input-group" style="margin-bottom: 20px">
@@ -55,7 +55,9 @@
             <span class="input-group-addon">Max Iterations</span>
             <input id="max-iterations" type="number" class="form-control" value="100" onchange="plot_output()"/>
           </div>
+          <button class="btn btn-primary center-block" onclick="plot_output()">Plot</button>
         </div>
+
       </div>
 
       <!-- canvas -->
@@ -118,7 +120,7 @@
           </div>
           <div class="input-group" style="margin-bottom: 20px">
             <span class="input-group-addon">Discretize with</span>
-            <input id="disc-output" type="number" class="form-control" value="200" onchange="this.value=Math.min(1000, Number(this.value)); plot_output()"/>
+            <input id="disc-output" type="number" class="form-control" value="500" onchange="this.value=Math.min(1000, Number(this.value)); plot_output()"/>
             <span class="input-group-addon">pixels per side</span>
           </div>
 
@@ -154,6 +156,8 @@
     <script>
       get_input_settings();
       get_output_settings();
+      set_parameter({x: 1.144208, y: 0.964454});
+      plot_input();
     </script>
 
   </body>

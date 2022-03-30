@@ -3,7 +3,7 @@ const SIZE = 1000;
 
 const input_canvas_top = document.getElementById('input-canvas-top');
 const input_ctx_top = input_canvas_top.getContext('2d');
-input_ctx_top.fillStyle = "red";
+input_ctx_top.fillStyle = "green";
 const input_canvas_bottom = document.getElementById('input-canvas-bottom');
 const input_ctx_bottom = input_canvas_bottom.getContext('2d');
 
@@ -263,8 +263,11 @@ function plot_input() {
 }
 
 function plot_output() {
+
   get_output_settings();
+
   output_ctx.clearRect(0, 0, SIZE, SIZE);
+  output_ctx.fillStyle = "black";
   if (parameter != null) {
     for (var i = 0; i < disc_output; i++) {
       for (var j = 0; j < disc_output; j++) {
@@ -278,8 +281,21 @@ function plot_output() {
         }
       }
     }
+
+    // plot 1 orbit
+    output_ctx.fillStyle = "red";
+    let z = cx(1);
+    for (let i = 0; i < 10000; i++) {
+      let p = get_canvas_point(z, zoom_output, center_x_output, center_y_output);
+      output_ctx.fillRect(p.h, p.k, SIZE / disc_output, SIZE / disc_output);
+      z = f(z, parameter);
+    }
+
   }
 }
+
+
+
 
 function clear_output() {
   output_ctx.clearRect(0, 0, SIZE, SIZE);
@@ -290,7 +306,7 @@ function clear_output() {
 
 function download_output() {
   var link = document.createElement('a');
-  link.download = 'custom_julia_set' + toString(current_point) + '.png';
+  link.download = 'custom_julia_set' + toString(parameter) + '.png';
   link.href = output_canvas.toDataURL();
   link.click();
   // window.location.href = output_canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
