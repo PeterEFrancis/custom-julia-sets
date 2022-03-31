@@ -25,6 +25,10 @@ var depth_input, depth_output;
 
 var parameter;
 
+var zero_color, bounded_color, infinity_color;
+
+var zero_estimate, infinity_estimate;
+
 
 
 
@@ -35,12 +39,14 @@ document.body.appendChild(curTxtInput);
 
 input_canvas_top.onmouseout = function(e) {
   curTxtInput.innerHTML = "";
+  curTxtInput.style.display = "none";
 }
 input_canvas_top.onmousemove = function(e) {
   let rect = input_canvas_top.getBoundingClientRect();
   let h = (e.clientX - rect.left) * (input_canvas_top.width / input_canvas_top.clientWidth);
   let k = (e.clientY - rect.top) * (input_canvas_top.height / input_canvas_top.clientHeight);
   let c = get_C_point({h:h, k:k}, zoom_input, center_x_input, center_y_input);
+  curTxtInput.style.display = "block";
   curTxtInput.innerHTML = toString(round(c, depth_input));
   curTxtInput.style.left = (event.pageX + 10) + "px";
   curTxtInput.style.top = event.pageY + "px";
@@ -59,12 +65,14 @@ document.body.appendChild(curTxtOutput);
 
 output_canvas.onmouseout = function(e) {
   curTxtOutput.innerHTML = "";
+  curTxtOutput.style.display = "none";
 }
 output_canvas.onmousemove = function(e) {
   let rect = output_canvas.getBoundingClientRect();
   let h = (e.clientX - rect.left) * (output_canvas.width / output_canvas.clientWidth);
   let k = (e.clientY - rect.top) * (output_canvas.height / output_canvas.clientHeight);
   let c = get_C_point({h:h, k:k}, zoom_output, center_x_output, center_y_output);
+  curTxtInput.style.display = "block";
   curTxtOutput.innerHTML = toString(round(c, depth_output));
   curTxtOutput.style.left = (event.pageX + 10) + "px";
   curTxtOutput.style.top = event.pageY + "px";
@@ -127,12 +135,24 @@ function get_output_settings() {
 
   disc_output = Number(document.getElementById('disc-output').value);
 
-  max_iterations = Number(document.getElementById('max-iterations').value);
-
   depth_output = Math.pow(10, Math.round(Math.log(zoom_output * 1000) / Math.log(10)));
 
 }
 
+
+function get_meta_settings() {
+
+  max_iterations = Number(document.getElementById('max-iterations').value);
+
+  zero_color = document.getElementById('zero-color').value;
+  bounded_color = document.getElementById('bounded-color').value;
+  infinity_color = document.getElementById('infinity-color').value;
+
+  zero_estimate = document.getElementById('zero-estimate').value;
+  infinity_estimate = document.getElementById('infinity-estimate').value;
+
+
+}
 
 
 
@@ -203,12 +223,16 @@ function f(z, c) {
 function color(z, c) {
   for (let i = 0; i < max_iterations; i++) {
     let norm = z.x**2 + z.y**2;
-    if (norm < 0.01 || norm > 100) {
-      return false;
+    // let v = (max_iterations - i) / max_iterations * 255;
+    if (norm < 0.01) {
+      return zero_color;
+    }
+    if (norm > 100) {
+      return infinity_color; // "rgb(" + v + ", 0, " + v + ")";
     }
     z = f(z, c);
   }
-  return true;
+  return bounded_color;
 }
 
 
@@ -252,9 +276,8 @@ function plot_input() {
         k: j * (SIZE / disc_input) + SIZE / (disc_input * 2)
       };
       let c = get_C_point(p, zoom_input, center_x_input, center_y_input);
-      if (color(cx(1), c)) {
-        input_ctx_bottom.fillRect(p.h, p.k, SIZE / disc_input, SIZE / disc_input);
-      }
+      input_ctx_bottom.fillStyle = color(cx(1), c);
+      input_ctx_bottom.fillRect(p.h, p.k, SIZE / disc_input, SIZE / disc_input);
     }
   }
 
@@ -264,6 +287,7 @@ function plot_input() {
 
 function plot_output() {
 
+  get_meta_settings();
   get_output_settings();
 
   output_ctx.clearRect(0, 0, SIZE, SIZE);
@@ -276,9 +300,8 @@ function plot_output() {
           k: j * (SIZE / disc_output) + SIZE / (disc_output * 2)
         };
         let z = get_C_point(p, zoom_output, center_x_output, center_y_output);
-        if (color(z, parameter)) {
-          output_ctx.fillRect(p.h, p.k, SIZE / disc_output, SIZE / disc_output);
-        }
+        output_ctx.fillStyle = color(z, parameter);
+        output_ctx.fillRect(p.h, p.k, SIZE / disc_output, SIZE / disc_output);
       }
     }
 

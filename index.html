@@ -45,17 +45,55 @@
 
       <!-- parameter and max iterations -->
       <div class="row" style="margin-bottom: 20px;">
-        <div class="col-md-3"></div>
-        <div class="col-md-6">
+        <div class="col-md-4">
           <div class="input-group" style="margin-bottom: 20px">
             <span class="input-group-addon">Parameter Point:</span>
             <input id="parameter" type="text" class="form-control" onchange="set_parameter(tuple_to_point(this.value))" placeholder="x, y"/>
           </div>
+          <button class="btn btn-primary btn-lg center-block" onclick="plot_output();">Re-Plot</button>
+
+        </div>
+        <div class="col-md-4">
+          <div class="input-group" style="margin-bottom: 20px">
+            <span class="input-group-addon">Zero norm-squared estimate:</span>
+            <input id="zero-estimate" type="number" class="form-control" onchange="this.value = this.value|'0.01'" placeholder="0.01" value = "0.01"/>
+          </div>
+          <div class="input-group" style="margin-bottom: 20px">
+            <span class="input-group-addon">Infinity norm-squared estimate:</span>
+            <input id="infinity-estimate" type="number" class="form-control" onchange="this.value = this.value|'100'" placeholder="100" value = "100"/>
+          </div>
           <div class="input-group" style="margin-bottom: 20px">
             <span class="input-group-addon">Max Iterations</span>
-            <input id="max-iterations" type="number" class="form-control" value="100" onchange="plot_output()"/>
+            <input id="max-iterations" type="number" class="form-control" value="100"/>
           </div>
-          <button class="btn btn-primary center-block" onclick="plot_output()">Plot</button>
+        </div>
+        <div class="col-md-4">
+          <table class="table">
+            <tr>
+              <td>
+                <label for="zero-color">\(f^\infty(z) = 0\):</label>
+              </td>
+              <td>
+                <input type="color" id="zero-color" name="zero-color" value="#2fe2d6" onchange="get_meta_settings();">
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label for="favcolor">\(f^\infty(z) \in (0,\infty) \):</label>
+              </td>
+              <td>
+                <input type="color" id="bounded-color" name="bounded-color" value="#000000" onchange="get_meta_settings();">
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label for="favcolor">\(f^\infty(z) =\infty\):</label>
+              </td>
+              <td>
+                <input type="color" id="infinity-color" name="infinity-color" value="#d62fe2" onchange="get_meta_settings();">
+              </td>
+            </tr>
+          </table>
         </div>
 
       </div>
@@ -114,7 +152,7 @@
             <div class="col-md-4">
               <div class="input-group">
                 <span class="input-group-addon">Zoom:</span>
-                <input id="zoom-output" type="number" class="form-control" value="0.1" onchange="plot_output()"/>
+                <input id="zoom-output" type="number" class="form-control" value="0.17" onchange="plot_output()"/>
               </div>
             </div>
           </div>
@@ -141,6 +179,8 @@
           <button onclick="download_output();" type="button" class="btn btn-default center-block"><span class="glyphicon glyphicon-download-alt"></span> Download Image</button>
         </div>
       </div>
+
+
     </div>
 
 
@@ -154,6 +194,7 @@
     <script src="engine.js"></script>
 
     <script>
+      get_meta_settings();
       get_input_settings();
       get_output_settings();
       set_parameter({x: 1.144208, y: 0.964454});
