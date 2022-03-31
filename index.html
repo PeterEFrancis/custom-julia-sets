@@ -57,11 +57,11 @@
             <div id="guppy-function-input" style="width: 100%"></div>
           </div>
           <div class="input-group" style="margin-bottom: 20px">
-            <span class="input-group-addon">Parameter Point</span>
+            <span class="input-group-addon">Parameter Point, \(c_0=\)</span>
             <input id="parameter" type="text" class="form-control" placeholder="x, y" value="1.144208,  0.964454"/>
           </div>
           <div class="input-group" style="margin-bottom: 20px">
-            <span class="input-group-addon">Critical Point</span>
+            <span class="input-group-addon">Critical Point, \(w=\)</span>
             <input id="critical-point" type="text" class="form-control" onchange="this.value=this.value||'1, 0';" placeholder="x, y" value="1, 0"/>
           </div>
         </div>
@@ -81,6 +81,7 @@
         </div>
         <div class="col-md-4">
           <table class="table">
+            <tr><th colspan="2" class="text-center">Color Picker</th></tr>
             <tr>
               <td>
                 <label for="zero-color">\(f^\infty(z, c) = 0\)</label>
@@ -120,12 +121,14 @@
       <!-- canvas -->
       <div class="row">
         <div class="col-md-6">
+          <p class="lead text-center">\(c\)-space, \(f^\infty(w, c)\)</p>
           <div class="cont" style="position: relative; width: 100%;">
             <canvas id="input-canvas-bottom" width="1000" height="1000" style="position: absolute"></canvas>
             <canvas id="input-canvas-top" width="1000" height="1000" style="background-color: transparent; position: absolute"></canvas>
           </div>
         </div>
         <div class="col-md-6">
+          <p class="lead text-center">\(z\)-space, \(f^\infty(z, c_0)\)</p>
           <canvas id="output-canvas" width="1000" height="1000"></canvas>
         </div>
       </div>
