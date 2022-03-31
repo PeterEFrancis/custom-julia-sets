@@ -224,10 +224,10 @@ function color(z, c) {
   for (let i = 0; i < max_iterations; i++) {
     let norm = z.x**2 + z.y**2;
     // let v = (max_iterations - i) / max_iterations * 255;
-    if (norm < 0.01) {
+    if (norm < zero_estimate) {
       return zero_color;
     }
-    if (norm > 100) {
+    if (norm > infinity_estimate) {
       return infinity_color; // "rgb(" + v + ", 0, " + v + ")";
     }
     z = f(z, c);
