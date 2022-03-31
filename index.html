@@ -47,7 +47,7 @@
       <div class="row" style="margin-bottom: 20px;">
         <div class="col-md-4">
           <div class="input-group" style="margin-bottom: 20px">
-            <span class="input-group-addon">Parameter Point:</span>
+            <span class="input-group-addon">Parameter Point</span>
             <input id="parameter" type="text" class="form-control" onchange="set_parameter(tuple_to_point(this.value))" placeholder="x, y"/>
           </div>
           <button class="btn btn-primary btn-lg center-block" onclick="plot_output();">Re-Plot</button>
@@ -55,12 +55,12 @@
         </div>
         <div class="col-md-4">
           <div class="input-group" style="margin-bottom: 20px">
-            <span class="input-group-addon">Zero norm-squared estimate:</span>
-            <input id="zero-estimate" type="number" class="form-control" onchange="this.value = this.value|'0.01'" placeholder="0.01" value = "0.01"/>
+            <span class="input-group-addon">Zero norm-squared estimate</span>
+            <input id="zero-estimate" type="number" class="form-control" onchange="this.value = this.value||'0.01'" placeholder="0.01" value = "0.01"/>
           </div>
           <div class="input-group" style="margin-bottom: 20px">
-            <span class="input-group-addon">Infinity norm-squared estimate:</span>
-            <input id="infinity-estimate" type="number" class="form-control" onchange="this.value = this.value|'100'" placeholder="100" value = "100"/>
+            <span class="input-group-addon">Infinity norm-squared estimate</span>
+            <input id="infinity-estimate" type="number" class="form-control" onchange="this.value = this.value||'100'" placeholder="100" value = "100"/>
           </div>
           <div class="input-group" style="margin-bottom: 20px">
             <span class="input-group-addon">Max Iterations</span>
@@ -71,7 +71,7 @@
           <table class="table">
             <tr>
               <td>
-                <label for="zero-color">\(f^\infty(z) = 0\):</label>
+                <label for="zero-color">\(f^\infty(z) = 0\)</label>
               </td>
               <td>
                 <input type="color" id="zero-color" name="zero-color" value="#2fe2d6" onchange="get_meta_settings();">
@@ -79,7 +79,7 @@
             </tr>
             <tr>
               <td>
-                <label for="favcolor">\(f^\infty(z) \in (0,\infty) \):</label>
+                <label for="favcolor">\(f^\infty(z) \in (0,\infty) \)</label>
               </td>
               <td>
                 <input type="color" id="bounded-color" name="bounded-color" value="#000000" onchange="get_meta_settings();">
@@ -87,7 +87,7 @@
             </tr>
             <tr>
               <td>
-                <label for="favcolor">\(f^\infty(z) =\infty\):</label>
+                <label for="favcolor">\(f^\infty(z) =\infty\)</label>
               </td>
               <td>
                 <input type="color" id="infinity-color" name="infinity-color" value="#d62fe2" onchange="get_meta_settings();">
@@ -117,7 +117,7 @@
           <div class="row" style="margin-bottom: 20px;">
             <div class="col-md-8">
               <div class="input-group">
-                <span class="input-group-addon">Center:</span>
+                <span class="input-group-addon">Center</span>
                 <input id="center-x-input" type="number" class="form-control" value="-.75"/>
                 <span class="input-group-addon">,</span>
                 <input id="center-y-input" type="number" class="form-control" value="0"/>
@@ -125,7 +125,7 @@
             </div>
             <div class="col-md-4">
               <div class="input-group">
-                <span class="input-group-addon">Zoom:</span>
+                <span class="input-group-addon">Zoom</span>
                 <input id="zoom-input" type="number" class="form-control" value=".25"/>
               </div>
             </div>
@@ -143,7 +143,7 @@
           <div class="row" style="margin-bottom: 20px;">
             <div class="col-md-8">
               <div class="input-group">
-                <span class="input-group-addon">Center:</span>
+                <span class="input-group-addon">Center</span>
                 <input id="center-x-output" type="number" class="form-control" value="2" onchange="plot_output()"/>
                 <span class="input-group-addon">,</span>
                 <input id="center-y-output" type="number" class="form-control" value="0" onchange="plot_output()"/>
@@ -151,7 +151,7 @@
             </div>
             <div class="col-md-4">
               <div class="input-group">
-                <span class="input-group-addon">Zoom:</span>
+                <span class="input-group-addon">Zoom</span>
                 <input id="zoom-output" type="number" class="form-control" value="0.17" onchange="plot_output()"/>
               </div>
             </div>
