@@ -49,13 +49,6 @@
         <h1 class="text-center">Custom Julia Sets</h1>
       </div>
 
-      <!-- <div class="row">
-        <div class="col-md-6">
-
-          <p class="lead" style="margin-top: 50px; border: 1px solid black;">\[f(z)=\frac{cz^3(z-4)}{6z^2-4z+1}\]</p>
-        </div>
-      </div> -->
-
       <!-- parameter and max iterations -->
       <div class="row" style="margin-bottom: 20px;">
         <div class="col-md-4">
@@ -63,13 +56,14 @@
             <span class="input-group-addon" style="font-size: 1.5em;">\(f(z, c)=\)</span>
             <div id="guppy-function-input" style="width: 100%"></div>
           </div>
-
           <div class="input-group" style="margin-bottom: 20px">
             <span class="input-group-addon">Parameter Point</span>
-            <input id="parameter" type="text" class="form-control" onchange="set_parameter(tuple_to_point(this.value))" placeholder="x, y"/>
+            <input id="parameter" type="text" class="form-control" placeholder="x, y" value="1.144208,  0.964454"/>
           </div>
-          <button class="btn btn-primary btn-lg center-block" onclick="plot_output();">Re-Plot</button>
-
+          <div class="input-group" style="margin-bottom: 20px">
+            <span class="input-group-addon">Critical Point</span>
+            <input id="critical-point" type="text" class="form-control" onchange="this.value=this.value||'1, 0';" placeholder="x, y" value="1, 0"/>
+          </div>
         </div>
         <div class="col-md-4">
           <div class="input-group" style="margin-bottom: 20px">
@@ -114,6 +108,13 @@
           </table>
         </div>
 
+      </div>
+
+      <!-- update meta settings button -->
+      <div class="row" style="margin-bottom: 20px;">
+        <div class="col-md-12">
+          <button class="btn btn-primary btn-lg center-block" onclick="get_meta_settings(); plot_input(); plot_output();">Update Settings and Re-Plot</button>
+        </div>
       </div>
 
       <!-- canvas -->
@@ -215,8 +216,9 @@
       get_meta_settings();
       get_input_settings();
       get_output_settings();
-      set_parameter({x: 1.144208, y: 0.964454});
+      // set_parameter({x: 1.144208, y: 0.964454});
       plot_input();
+      plot_output();
     </script>
 
   </body>

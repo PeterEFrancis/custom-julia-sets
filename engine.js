@@ -37,6 +37,8 @@ var depth_input, depth_output;
 
 var parameter;
 
+var critical_point;
+
 var zero_color, bounded_color, infinity_color;
 
 var zero_estimate, infinity_estimate;
@@ -74,6 +76,7 @@ input_canvas_top.onclick = function(e) {
   let h = (e.clientX - rect.left) * (input_canvas_top.width / input_canvas_top.clientWidth);
   let k = (e.clientY - rect.top) * (input_canvas_top.height / input_canvas_top.clientHeight);
   set_parameter(get_C_point({h:h, k:k}, zoom_input, center_x_input, center_y_input));
+  plot_output();
 }
 
 
@@ -125,7 +128,19 @@ function set_parameter(c) {
   } else {
     document.getElementById('parameter').value = parameter.x + ', ' + parameter.y;
     plot_parameter();
-    plot_output();
+    // plot_output();
+  }
+}
+
+
+
+function set_critical_point(w) {
+  critical_point = w;
+  if (critical_point === null) {
+    document.getElementById('critical-point').value = "";
+  } else {
+    document.getElementById('critical-point').value = critical_point.x + ', ' + critical_point.y;
+    plot_input();
   }
 }
 
@@ -170,6 +185,8 @@ function get_meta_settings() {
     // throw "Error parsing the input f(z)";
     alert('Error-- Cannot understand function input')
   }
+  set_parameter(tuple_to_point(document.getElementById('parameter').value))
+  set_critical_point(tuple_to_point(document.getElementById('critical-point').value));
 
   max_iterations = Number(document.getElementById('max-iterations').value);
 
@@ -219,6 +236,7 @@ function round(p, depth) {
 
 function color(z, c) {
   for (let i = 0; i < max_iterations; i++) {
+    z = f(z, c);
     let norm = z.x**2 + z.y**2;
     // let v = (max_iterations - i) / max_iterations * 255;
     if (norm < zero_estimate) {
@@ -227,7 +245,6 @@ function color(z, c) {
     if (norm > infinity_estimate) {
       return infinity_color; // "rgb(" + v + ", 0, " + v + ")";
     }
-    z = f(z, c);
   }
   return bounded_color;
 }
@@ -273,7 +290,7 @@ function plot_input() {
         k: j * (SIZE / disc_input) + SIZE / (disc_input * 2)
       };
       let c = get_C_point(p, zoom_input, center_x_input, center_y_input);
-      input_ctx_bottom.fillStyle = color(cx(1), c);
+      input_ctx_bottom.fillStyle = color(critical_point, c);
       input_ctx_bottom.fillRect(i * (SIZE / disc_input), j * (SIZE / disc_input), SIZE / disc_input, SIZE / disc_input);
     }
   }
@@ -284,7 +301,7 @@ function plot_input() {
 
 function plot_output() {
 
-  get_meta_settings();
+  // get_meta_settings();
   get_output_settings();
 
   output_ctx.clearRect(0, 0, SIZE, SIZE);
@@ -302,9 +319,9 @@ function plot_output() {
       }
     }
 
-    // plot 1 orbit
+    // plot critical point orbit
     output_ctx.fillStyle = "red";
-    let z = cx(1);
+    let z = JSON.parse(JSON.stringify(critical_point));
     for (let i = 0; i < 10000; i++) {
       let p = get_canvas_point(z, zoom_output, center_x_output, center_y_output);
       output_ctx.fillRect(p.h, p.k, SIZE / disc_output, SIZE / disc_output);
