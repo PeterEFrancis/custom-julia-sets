@@ -11,6 +11,13 @@
     <!-- Mathjax -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
 
+    <!-- Guppy -->
+    <link rel="stylesheet" href="https://guppy.js.org/build/guppy-default.min.css">
+    <script type="text/javascript" src="https://guppy.js.org/build/guppy.min.js"></script>
+
+    <script type="text/javascript" src="complex_operations.js"></script>
+
+
     <style>
 
       br {
@@ -40,12 +47,23 @@
         <br>
       <div class="jumbotron">
         <h1 class="text-center">Custom Julia Sets</h1>
-        <p class="lead" style="margin-top: 50px; border: 1px solid black;">\[f(z)=\frac{cz^3(z-4)}{6z^2-4z+1}\]</p>
       </div>
+
+      <!-- <div class="row">
+        <div class="col-md-6">
+
+          <p class="lead" style="margin-top: 50px; border: 1px solid black;">\[f(z)=\frac{cz^3(z-4)}{6z^2-4z+1}\]</p>
+        </div>
+      </div> -->
 
       <!-- parameter and max iterations -->
       <div class="row" style="margin-bottom: 20px;">
         <div class="col-md-4">
+          <div class="input-group"  style="margin-bottom: 20px">
+            <span class="input-group-addon" style="font-size: 1.5em;">\(f(z, c)=\)</span>
+            <div id="guppy-function-input" style="width: 100%"></div>
+          </div>
+
           <div class="input-group" style="margin-bottom: 20px">
             <span class="input-group-addon">Parameter Point</span>
             <input id="parameter" type="text" class="form-control" onchange="set_parameter(tuple_to_point(this.value))" placeholder="x, y"/>

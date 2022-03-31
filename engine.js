@@ -1,6 +1,18 @@
 
 const SIZE = 1000;
 
+const WILLIE = '<m v="1.2.0"><e></e><f type="fraction" group="functions"><b p="latex">\\dfrac{<r ref="1"/>}{<r ref="2"/>}</b><b p="small_latex">\\frac{<r ref="1"/>}{<r ref="2"/>}</b><b p="asciimath">(<r ref="1"/>)/(<r ref="2"/>)</b><c up="1" down="2" name="numerator"><e>c</e><f type="exponential" group="functions"><b p="latex">{<r ref="1"/>}^{<r ref="2"/>}</b><b p="asciimath">(<r ref="1"/>)^(<r ref="2"/>)</b><c up="2" bracket="yes" delete="1" name="base"><e>z</e></c><c down="1" delete="1" name="exponent" small="yes"><e>3</e></c></f><e></e><f type="bracket" group="functions" ast_type="pass"><b p="latex">\\left(<r ref="1"/>\\right)</b><b p="asciimath">(<r ref="1"/>)</b><c delete="1" is_bracket="yes"><e>z-4</e></c></f><e></e></c><c up="1" down="2" delete="1" name="denominator"><e>6</e><f type="exponential" group="functions"><b p="latex">{<r ref="1"/>}^{<r ref="2"/>}</b><b p="asciimath">(<r ref="1"/>)^(<r ref="2"/>)</b><c up="2" bracket="yes" delete="1" name="base"><e>z</e></c><c down="1" delete="1" name="exponent" small="yes"><e>2</e></c></f><e>-4z+1</e></c></f><e></e></m>';
+
+
+var guppy_input = new Guppy('guppy-function-input');
+guppy_input.engine.add_symbol("conj", {"output": {"latex":"\\overline{{$1}}", "text":"conj($1)"}, "attrs": { "type":"conj", "group":"function"}});
+guppy_input.engine.add_symbol("Re", {"output": {"latex":"\\text{Re}({$1})", "text":"Re($1)"}, "attrs": { "type":"Re", "group":"function"}});
+guppy_input.engine.add_symbol("Im", {"output": {"latex":"\\text{Im}({$1})", "text":"Re($1)"}, "attrs": { "type":"Im", "group":"function"}});
+guppy_input.engine.set_content(WILLIE);
+guppy_input.engine.end();
+guppy_input.render(true);
+
+
 const input_canvas_top = document.getElementById('input-canvas-top');
 const input_ctx_top = input_canvas_top.getContext('2d');
 input_ctx_top.fillStyle = "green";
@@ -28,6 +40,12 @@ var parameter;
 var zero_color, bounded_color, infinity_color;
 
 var zero_estimate, infinity_estimate;
+
+
+var f;
+
+
+
 
 
 
@@ -72,7 +90,7 @@ output_canvas.onmousemove = function(e) {
   let h = (e.clientX - rect.left) * (output_canvas.width / output_canvas.clientWidth);
   let k = (e.clientY - rect.top) * (output_canvas.height / output_canvas.clientHeight);
   let c = get_C_point({h:h, k:k}, zoom_output, center_x_output, center_y_output);
-  curTxtInput.style.display = "block";
+  curTxtOutput.style.display = "block";
   curTxtOutput.innerHTML = toString(round(c, depth_output));
   curTxtOutput.style.left = (event.pageX + 10) + "px";
   curTxtOutput.style.top = event.pageY + "px";
@@ -142,15 +160,25 @@ function get_output_settings() {
 
 function get_meta_settings() {
 
+  // parse with guppy
+  try {
+    const func = guppy_input.func(complex_operations);
+    f = function(z, c) {
+      return func({'z': z, 'c': c});
+    }
+  } catch(e) {
+    // throw "Error parsing the input f(z)";
+    alert('Error-- Cannot understand function input')
+  }
+
   max_iterations = Number(document.getElementById('max-iterations').value);
 
   zero_color = document.getElementById('zero-color').value;
   bounded_color = document.getElementById('bounded-color').value;
   infinity_color = document.getElementById('infinity-color').value;
 
-  zero_estimate = document.getElementById('zero-estimate').value;
-  infinity_estimate = document.getElementById('infinity-estimate').value;
-
+  zero_estimate = Number(document.getElementById('zero-estimate').value);
+  infinity_estimate = Number(document.getElementById('infinity-estimate').value);
 
 }
 
@@ -164,39 +192,8 @@ function cx(x,y) {
     y: y
   };
 }
-function add(a,b) {
-  return {
-    x: a.x + b.x,
-    y: a.y + b.y
-  };
-}
-function subtract(a,b) {
-  return {
-    x: a.x - b.x,
-    y: a.y - b.y
-  };
-}
-function multiply(a,b) {
-  return {
-    x: a.x * b.x - a.y * b.y,
-    y: a.x * b.y + a.y * b.x
-  };
-}
-function integer_power(a, n) {
-  if (n == 0) {
-    return {x: 0, y: 0};
-  } else if (n == 1) {
-    return a;
-  } else {
-    return multiply(a, integer_power(a, n-1));
-  }
-}
-function divide(a, b) {
-  return {
-    x: (a.x * b.x + a.y * b.y) / (b.x**2 + b.y**2),
-    y: (a.y * b.x - a.x * b.y) / (b.x**2 + b.y**2)
-  };
-}
+
+
 
 function round(p, depth) {
   return {
@@ -208,12 +205,12 @@ function round(p, depth) {
 
 
 
-function f(z, c) {
-  return divide(
-    multiply(multiply(c, integer_power(z,3)), subtract(z, cx(4))),
-    add(subtract(multiply(cx(6),integer_power(z,2)), multiply(cx(4), z)), cx(1))
-  );
-}
+// function f(z, c) {
+//   return divide(
+//     multiply(multiply(c, exponential(z,cx(3))), subtract(z, cx(4))),
+//     add(subtract(multiply(cx(6),exponential(z,cx(2))), multiply(cx(4), z)), cx(1))
+//   );
+// }
 
 
 
@@ -277,7 +274,7 @@ function plot_input() {
       };
       let c = get_C_point(p, zoom_input, center_x_input, center_y_input);
       input_ctx_bottom.fillStyle = color(cx(1), c);
-      input_ctx_bottom.fillRect(p.h, p.k, SIZE / disc_input, SIZE / disc_input);
+      input_ctx_bottom.fillRect(i * (SIZE / disc_input), j * (SIZE / disc_input), SIZE / disc_input, SIZE / disc_input);
     }
   }
 
@@ -301,7 +298,7 @@ function plot_output() {
         };
         let z = get_C_point(p, zoom_output, center_x_output, center_y_output);
         output_ctx.fillStyle = color(z, parameter);
-        output_ctx.fillRect(p.h, p.k, SIZE / disc_output, SIZE / disc_output);
+        output_ctx.fillRect(i * (SIZE / disc_output), j * (SIZE / disc_output), SIZE / disc_output, SIZE / disc_output);
       }
     }
 
