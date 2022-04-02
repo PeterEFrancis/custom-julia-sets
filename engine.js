@@ -1,5 +1,5 @@
 
-const SIZE = 1000;
+const SIZE = 3000;
 
 const WILLIE = '<m v="1.2.0"><e></e><f type="fraction" group="functions"><b p="latex">\\dfrac{<r ref="1"/>}{<r ref="2"/>}</b><b p="small_latex">\\frac{<r ref="1"/>}{<r ref="2"/>}</b><b p="asciimath">(<r ref="1"/>)/(<r ref="2"/>)</b><c up="1" down="2" name="numerator"><e>c</e><f type="exponential" group="functions"><b p="latex">{<r ref="1"/>}^{<r ref="2"/>}</b><b p="asciimath">(<r ref="1"/>)^(<r ref="2"/>)</b><c up="2" bracket="yes" delete="1" name="base"><e>z</e></c><c down="1" delete="1" name="exponent" small="yes"><e>3</e></c></f><e></e><f type="bracket" group="functions" ast_type="pass"><b p="latex">\\left(<r ref="1"/>\\right)</b><b p="asciimath">(<r ref="1"/>)</b><c delete="1" is_bracket="yes"><e>z-4</e></c></f><e></e></c><c up="1" down="2" delete="1" name="denominator"><e>6</e><f type="exponential" group="functions"><b p="latex">{<r ref="1"/>}^{<r ref="2"/>}</b><b p="asciimath">(<r ref="1"/>)^(<r ref="2"/>)</b><c up="2" bracket="yes" delete="1" name="base"><e>z</e></c><c down="1" delete="1" name="exponent" small="yes"><e>2</e></c></f><e>-4z+1</e></c></f><e></e></m>';
 
@@ -76,7 +76,9 @@ input_canvas_top.onclick = function(e) {
   let h = (e.clientX - rect.left) * (input_canvas_top.width / input_canvas_top.clientWidth);
   let k = (e.clientY - rect.top) * (input_canvas_top.height / input_canvas_top.clientHeight);
   set_parameter(get_C_point({h:h, k:k}, zoom_input, center_x_input, center_y_input));
+  plot_parameter();
   plot_output();
+
 }
 
 
@@ -116,7 +118,7 @@ function plot_parameter() {
   input_ctx_top.clearRect(0, 0, SIZE, SIZE);
   let p = get_canvas_point(parameter, zoom_input, center_x_input, center_y_input);
   input_ctx_top.beginPath();
-  input_ctx_top.arc(p.h, p.k, 5, 0, 2 * Math.PI);
+  input_ctx_top.arc(p.h, p.k, 15, 0, 2 * Math.PI);
   input_ctx_top.fill();
 }
 
@@ -127,7 +129,7 @@ function set_parameter(c) {
     document.getElementById('parameter').value = "";
   } else {
     document.getElementById('parameter').value = parameter.x + ', ' + parameter.y;
-    plot_parameter();
+    // plot_parameter();
     // plot_output();
   }
 }
@@ -140,7 +142,7 @@ function set_critical_point(w) {
     document.getElementById('critical-point').value = "";
   } else {
     document.getElementById('critical-point').value = critical_point.x + ', ' + critical_point.y;
-    plot_input();
+    // plot_input();
   }
 }
 
@@ -185,7 +187,9 @@ function get_meta_settings() {
     // throw "Error parsing the input f(z)";
     alert('Error-- Cannot understand function input')
   }
-  set_parameter(tuple_to_point(document.getElementById('parameter').value))
+
+
+  set_parameter(tuple_to_point(document.getElementById('parameter').value));
   set_critical_point(tuple_to_point(document.getElementById('critical-point').value));
 
   max_iterations = Number(document.getElementById('max-iterations').value);
@@ -295,8 +299,8 @@ function plot_input() {
     }
   }
 
-  input_ctx_top.clearRect(0, 0, SIZE, SIZE);
-  plot_parameter();
+  // input_ctx_top.clearRect(0, 0, SIZE, SIZE);
+  // plot_parameter();
 }
 
 function plot_output() {

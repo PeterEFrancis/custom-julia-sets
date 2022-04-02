@@ -61,7 +61,7 @@
             <input id="parameter" type="text" class="form-control" placeholder="x, y" value="1.144208,  0.964454"/>
           </div>
           <div class="input-group" style="margin-bottom: 20px">
-            <span class="input-group-addon">Critical Point, \(w=\)</span>
+            <span class="input-group-addon">Critical Point, \(z_0=\)</span>
             <input id="critical-point" type="text" class="form-control" onchange="this.value=this.value||'1, 0';" placeholder="x, y" value="1, 0"/>
           </div>
         </div>
@@ -87,23 +87,23 @@
                 <label for="zero-color">\(f^\infty(z, c) = 0\)</label>
               </td>
               <td>
-                <input type="color" id="zero-color" name="zero-color" value="#2fe2d6" onchange="get_meta_settings();">
+                <input type="color" id="zero-color" name="zero-color" value="#2fe2d6">
               </td>
             </tr>
             <tr>
               <td>
-                <label for="favcolor">\(f^\infty(z, c) \in (0,\infty) \)</label>
+                <label for="favcolor">\(f^\infty(z, c) \in (0,\infty)\)</label>
               </td>
               <td>
-                <input type="color" id="bounded-color" name="bounded-color" value="#000000" onchange="get_meta_settings();">
+                <input type="color" id="bounded-color" name="bounded-color" value="#00000">
               </td>
             </tr>
             <tr>
               <td>
-                <label for="favcolor">\(f^\infty(z, c) =\infty\)</label>
+                <label for="favcolor">\(f^\infty(z, c) = \infty\)</label>
               </td>
               <td>
-                <input type="color" id="infinity-color" name="infinity-color" value="#d62fe2" onchange="get_meta_settings();">
+                <input type="color" id="infinity-color" name="infinity-color" value="#d62fe2">
               </td>
             </tr>
           </table>
@@ -114,22 +114,22 @@
       <!-- update meta settings button -->
       <div class="row" style="margin-bottom: 20px;">
         <div class="col-md-12">
-          <button class="btn btn-primary btn-lg center-block" onclick="get_meta_settings(); plot_input(); plot_output();">Update Settings and Re-Plot</button>
+          <button class="btn btn-primary btn-lg center-block" onclick="get_meta_settings(); plot_parameter(); plot_input(); plot_output();">Update Settings and Re-Plot</button>
         </div>
       </div>
 
       <!-- canvas -->
       <div class="row">
         <div class="col-md-6">
-          <p class="lead text-center">\(c\)-space, \(f^\infty(w, c)\)</p>
+          <p class="lead text-center">\(c\)-space, \(f^\infty(z_0, c)\)</p>
           <div class="cont" style="position: relative; width: 100%;">
-            <canvas id="input-canvas-bottom" width="1000" height="1000" style="position: absolute"></canvas>
-            <canvas id="input-canvas-top" width="1000" height="1000" style="background-color: transparent; position: absolute"></canvas>
+            <canvas id="input-canvas-bottom" width="3000" height="3000" style="position: absolute"></canvas>
+            <canvas id="input-canvas-top" width="3000" height="3000" style="background-color: transparent; position: absolute"></canvas>
           </div>
         </div>
         <div class="col-md-6">
           <p class="lead text-center">\(z\)-space, \(f^\infty(z, c_0)\)</p>
-          <canvas id="output-canvas" width="1000" height="1000"></canvas>
+          <canvas id="output-canvas" width="3000" height="3000"></canvas>
         </div>
       </div>
 
@@ -154,7 +154,7 @@
           </div>
           <div class="input-group" style="margin-bottom: 20px">
             <span class="input-group-addon">Discretize with</span>
-            <input id="disc-input" type="number" class="form-control" value="1000" onchange="this.value=Math.min(1000, Number(this.value));"/>
+            <input id="disc-input" type="number" class="form-control" value="1000" onchange="this.value=Math.min(3000, Number(this.value));"/>
             <span class="input-group-addon">pixels per side</span>
           </div>
 
@@ -166,31 +166,31 @@
             <div class="col-md-8">
               <div class="input-group">
                 <span class="input-group-addon">Center</span>
-                <input id="center-x-output" type="number" class="form-control" value="2" onchange="plot_output()"/>
+                <input id="center-x-output" type="number" class="form-control" value="2"/>
                 <span class="input-group-addon">,</span>
-                <input id="center-y-output" type="number" class="form-control" value="0" onchange="plot_output()"/>
+                <input id="center-y-output" type="number" class="form-control" value="0"/>
               </div>
             </div>
             <div class="col-md-4">
               <div class="input-group">
                 <span class="input-group-addon">Zoom</span>
-                <input id="zoom-output" type="number" class="form-control" value="0.17" onchange="plot_output()"/>
+                <input id="zoom-output" type="number" class="form-control" value="0.17"/>
               </div>
             </div>
           </div>
           <div class="input-group" style="margin-bottom: 20px">
             <span class="input-group-addon">Discretize with</span>
-            <input id="disc-output" type="number" class="form-control" value="500" onchange="this.value=Math.min(1000, Number(this.value)); plot_output()"/>
+            <input id="disc-output" type="number" class="form-control" value="500" onchange="this.value=Math.min(3000, Number(this.value));"/>
             <span class="input-group-addon">pixels per side</span>
           </div>
 
         </div>
       </div>
 
-      <!-- meta buttons -->
+
       <div class="row" style="margin-top: 0px">
         <div class="col-md-6">
-          <button class="btn btn-block btn-primary" onclick="get_input_settings(); plot_input();">Update Input Settings</button>
+          <button class="btn btn-block btn-primary" onclick="get_input_settings(); plot_parameter(); plot_input();">Update Settings and Re-Plot</button>
 
           <!-- <div class="input-group">
             <span class="input-group-addon">Number of Workers</span>
@@ -198,6 +198,8 @@
           </div> -->
         </div>
         <div class="col-md-6">
+          <button class="btn btn-block btn-primary" onclick="get_output_settings(); plot_output();">Update Settings and Re-Plot</button>
+          <br>
           <button onclick="download_output();" type="button" class="btn btn-default center-block"><span class="glyphicon glyphicon-download-alt"></span> Download Image</button>
         </div>
       </div>
@@ -220,6 +222,7 @@
       get_input_settings();
       get_output_settings();
       // set_parameter({x: 1.144208, y: 0.964454});
+      plot_parameter();
       plot_input();
       plot_output();
     </script>
