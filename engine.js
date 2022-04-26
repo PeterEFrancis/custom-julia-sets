@@ -1,6 +1,7 @@
 
 const SIZE = 3000;
 
+const STANDARD = '<m v="1.2.0"><e></e><f type="exponential" group="functions"><b p="latex">{<r ref="1"/>}^{<r ref="2"/>}</b><b p="asciimath">(<r ref="1"/>)^(<r ref="2"/>)</b><c up="2" bracket="yes" delete="1" name="base"><e>z</e></c><c down="1" delete="1" name="exponent" small="yes"><e>2</e></c></f><e>+c</e></m>';
 const WILLIE = '<m v="1.2.0"><e></e><f type="fraction" group="functions"><b p="latex">\\dfrac{<r ref="1"/>}{<r ref="2"/>}</b><b p="small_latex">\\frac{<r ref="1"/>}{<r ref="2"/>}</b><b p="asciimath">(<r ref="1"/>)/(<r ref="2"/>)</b><c up="1" down="2" name="numerator"><e>c</e><f type="exponential" group="functions"><b p="latex">{<r ref="1"/>}^{<r ref="2"/>}</b><b p="asciimath">(<r ref="1"/>)^(<r ref="2"/>)</b><c up="2" bracket="yes" delete="1" name="base"><e>z</e></c><c down="1" delete="1" name="exponent" small="yes"><e>3</e></c></f><e></e><f type="bracket" group="functions" ast_type="pass"><b p="latex">\\left(<r ref="1"/>\\right)</b><b p="asciimath">(<r ref="1"/>)</b><c delete="1" is_bracket="yes"><e>z-4</e></c></f><e></e></c><c up="1" down="2" delete="1" name="denominator"><e>6</e><f type="exponential" group="functions"><b p="latex">{<r ref="1"/>}^{<r ref="2"/>}</b><b p="asciimath">(<r ref="1"/>)^(<r ref="2"/>)</b><c up="2" bracket="yes" delete="1" name="base"><e>z</e></c><c down="1" delete="1" name="exponent" small="yes"><e>2</e></c></f><e>-4z+1</e></c></f><e></e></m>';
 
 
@@ -8,7 +9,7 @@ var guppy_input = new Guppy('guppy-function-input');
 guppy_input.engine.add_symbol("conj", {"output": {"latex":"\\overline{{$1}}", "text":"conj($1)"}, "attrs": { "type":"conj", "group":"function"}});
 guppy_input.engine.add_symbol("Re", {"output": {"latex":"\\text{Re}({$1})", "text":"Re($1)"}, "attrs": { "type":"Re", "group":"function"}});
 guppy_input.engine.add_symbol("Im", {"output": {"latex":"\\text{Im}({$1})", "text":"Re($1)"}, "attrs": { "type":"Im", "group":"function"}});
-guppy_input.engine.set_content(WILLIE);
+guppy_input.engine.set_content(STANDARD);
 guppy_input.engine.end();
 guppy_input.render(true);
 
