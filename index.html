@@ -58,17 +58,17 @@
           </div>
           <div class="input-group" style="margin-bottom: 20px">
             <span class="input-group-addon">Parameter Point, \(c_0=\)</span>
-            <input id="parameter" type="text" class="form-control" placeholder="x, y" value="1.144208,  0.964454"/>
+            <input id="parameter" type="text" class="form-control" placeholder="x, y" value="-1, 0"/> <!--1.144208,  0.964454-->
           </div>
           <div class="input-group" style="margin-bottom: 20px">
             <span class="input-group-addon">Critical Point, \(z_0=\)</span>
-            <input id="critical-point" type="text" class="form-control" onchange="this.value=this.value||'1, 0';" placeholder="x, y" value="1, 0"/>
+            <input id="critical-point" type="text" class="form-control" onchange="this.value=this.value||'0, 0';" placeholder="x, y" value="0, 0"/>
           </div>
         </div>
         <div class="col-md-4">
           <div class="input-group" style="margin-bottom: 20px">
             <span class="input-group-addon">Zero norm-squared estimate</span>
-            <input id="zero-estimate" type="number" class="form-control" onchange="this.value = this.value||'0.01'" placeholder="0.01" value = "0.01"/>
+            <input id="zero-estimate" type="number" class="form-control" onchange="this.value = this.value||'0.01'" placeholder="0" value = "0"/>
           </div>
           <div class="input-group" style="margin-bottom: 20px">
             <span class="input-group-addon">Infinity norm-squared estimate</span>
@@ -148,13 +148,13 @@
             <div class="col-md-4">
               <div class="input-group">
                 <span class="input-group-addon">Zoom</span>
-                <input id="zoom-input" type="number" class="form-control" value=".25"/>
+                <input id="zoom-input" type="number" class="form-control" value=".6"/>
               </div>
             </div>
           </div>
           <div class="input-group" style="margin-bottom: 20px">
             <span class="input-group-addon">Discretize with</span>
-            <input id="disc-input" type="number" class="form-control" value="1000" onchange="this.value=Math.min(3000, Number(this.value));"/>
+            <input id="disc-input" type="number" class="form-control" value="500" onchange="this.value=Math.min(3000, Number(this.value));"/>
             <span class="input-group-addon">pixels per side</span>
           </div>
 
@@ -166,7 +166,7 @@
             <div class="col-md-8">
               <div class="input-group">
                 <span class="input-group-addon">Center</span>
-                <input id="center-x-output" type="number" class="form-control" value="2"/>
+                <input id="center-x-output" type="number" class="form-control" value="0"/>
                 <span class="input-group-addon">,</span>
                 <input id="center-y-output" type="number" class="form-control" value="0"/>
               </div>
@@ -174,7 +174,7 @@
             <div class="col-md-4">
               <div class="input-group">
                 <span class="input-group-addon">Zoom</span>
-                <input id="zoom-output" type="number" class="form-control" value="0.17"/>
+                <input id="zoom-output" type="number" class="form-control" value="0.5"/> <!-- 0.17 -->
               </div>
             </div>
           </div>
